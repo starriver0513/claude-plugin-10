@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プロが使ってるClaudeプラグイン10選｜保存版資料</title>
+<meta name="description" content="Claudeのプラグインについて、入れ方・呼び出し方から、仕事で使える10個の入れ方とプロンプト、組み合わせ方、入れる前に知っておくべき3つの注意までまとめた資料です。">
+<meta property="og:title" content="プロが使ってるClaudeプラグイン10選｜保存版資料">
+<meta property="og:description" content="Claudeのプラグインについて、入れ方・呼び出し方から、仕事で使える10個の入れ方とプロンプト、組み合わせ方、入れる前に知っておくべき3つの注意までまとめた資料です。">
+<meta name="theme-color" content="#0b2a5b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+1:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  
+  --ink:#0a1020;          
+  --ink-soft:#22304a;     
+  --muted:#5c6880;        
+  --navy:#0b2a5b;         
+  --blue:#0866ff;         
+  --blue-dark:#073b9a;
+  --cyan:#28d3ff;         
+  --sky:#d9eaff;
+  --blue-soft:#eef5ff;
+  --line:#d8e4f6;
+  --bg:#f6f9ff;
+  --white:#fff;
+  --code-bg:#0b1834;      
+  --ok:#0f9d58;
+  --warn:#f59e0b;
+  --grad-hero:linear-gradient(135deg,#040c22 0%,#062a68 48%,#0a63d6 100%);
+  --grad-accent:linear-gradient(135deg,var(--cyan) 0%,var(--blue) 100%);
+  --shadow:0 18px 44px rgba(8,32,80,.12);
+  --shadow-hover:0 26px 64px rgba(8,32,80,.22);
+  --radius:18px;
+  --radius-sm:12px;
+  --max:1040px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;scroll-padding-top:24px}
+body{
+  margin:0;color:var(--ink);background:var(--bg);
+  font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans',Meiryo,sans-serif;
+  line-height:1.95;font-size:16px;overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 12% -4%,rgba(8,102,255,.10),transparent 34%),
+    radial-gradient(circle at 92% 6%,rgba(40,211,255,.10),transparent 30%);
+  background-attachment:fixed;
+}
+a{color:var(--blue);font-weight:700;text-underline-offset:3px;text-decoration-thickness:2px}
+img{max-width:100%;height:auto;display:block}
+
+.progress{position:fixed;inset:0 0 auto 0;height:4px;z-index:60;background:transparent}
+.progress span{display:block;height:100%;width:0;background:var(--grad-accent);box-shadow:0 0 14px rgba(8,102,255,.6);transition:width .1s linear}
+
+.page{width:min(var(--max),calc(100vw - 32px));margin:0 auto;padding:28px 0 96px}
+
+.hero{position:relative;overflow:hidden;border-radius:26px;color:#fff;padding:clamp(30px,5vw,64px);background:var(--grad-hero);box-shadow:var(--shadow-hover)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(135deg,rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(45deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:74px 74px;opacity:.6}
+.hero::after{content:"";position:absolute;width:280px;height:280px;right:-90px;top:-110px;border-radius:50%;
+  background:radial-gradient(circle,rgba(40,211,255,.35),transparent 70%);animation:float 7s ease-in-out infinite;pointer-events:none}
+.hero-inner{position:relative;z-index:1}
+.hero-glow{position:absolute;inset:-40%;z-index:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(120,190,255,.30),transparent 60%);transition:opacity .4s ease}
+@keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-14px,0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  font-size:12px;font-weight:800;letter-spacing:.1em}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:#4ade80}
+.hero h1{margin:18px 0 14px;font-family:'M PLUS 1',sans-serif;font-size:clamp(27px,5.4vw,52px);line-height:1.28;font-weight:800;letter-spacing:-.01em}
+.hero h1 .grad{background:linear-gradient(135deg,#8fd6ff,#fff 60%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .lead{margin:0;font-size:clamp(14px,2.2vw,17px);opacity:.94;max-width:44em}
+.hero-meta{margin-top:16px;font-size:13px;opacity:.8}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.hero-figure{margin-top:28px;border-radius:18px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 16px 40px rgba(0,0,0,.42)}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.hero-stat{flex:1 1 150px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16)}
+.hero-stat b{display:block;font-family:'M PLUS 1',sans-serif;font-size:clamp(20px,3.4vw,28px);line-height:1.3}
+.hero-stat span{font-size:12px;opacity:.82}
+
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:13px 24px;
+  overflow:hidden;border-radius:14px;background:var(--grad-accent);color:#fff!important;font-weight:900;text-decoration:none;
+  box-shadow:0 12px 30px rgba(8,102,255,.34);transition:transform .26s ease,box-shadow .26s ease}
+.btn::before{content:"";position:absolute;inset:0;transform:translateX(-130%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transition:transform .6s ease}
+.btn:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(8,102,255,.46)}
+.btn:hover::before{transform:translateX(130%)}
+.btn.ghost{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);box-shadow:none}
+.btn.solid{background:var(--navy);box-shadow:0 12px 30px rgba(11,42,91,.28)}
+.btn.small{min-height:40px;padding:9px 16px;font-size:13px;border-radius:11px;box-shadow:var(--shadow)}
+
+.toollink{display:inline-flex;align-items:center;gap:7px;margin:4px 8px 4px 0;padding:8px 14px;border-radius:999px;
+  background:var(--white);border:1px solid var(--line);color:var(--blue)!important;font-size:13.5px;font-weight:800;
+  text-decoration:none;box-shadow:0 6px 16px rgba(8,32,80,.07);transition:transform .2s ease,border-color .2s ease}
+.toollink:hover{transform:translateY(-2px);border-color:var(--blue)}
+.toollink::after{content:"↗";font-size:11px;opacity:.7}
+
+.toc{margin:30px 0 0;padding:24px 26px;border-radius:var(--radius);background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow)}
+.toc h2{margin:0 0 14px;font-family:'M PLUS 1',sans-serif;font-size:17px;color:var(--navy)}
+.toc ol{margin:0;padding-left:0;list-style:none;counter-reset:toc;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}  
+.toc li{counter-increment:toc}
+.toc a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:10px;color:var(--ink-soft)!important;
+  font-weight:700;font-size:14.5px;text-decoration:none;transition:background .2s ease,color .2s ease}
+.toc a::before{content:counter(toc,decimal-leading-zero);color:var(--blue);font-family:'M PLUS 1',sans-serif;font-size:13px}
+.toc a:hover,.toc a.active{background:var(--blue-soft);color:var(--navy)!important}
+
+.sidenav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:40;display:none;flex-direction:column;gap:11px}
+.sidenav a{position:relative;width:11px;height:11px;border-radius:50%;background:var(--line);transition:background .25s ease,transform .25s ease}
+.sidenav a.active{background:var(--blue);transform:scale(1.45)}
+.sidenav a span{position:absolute;right:20px;top:50%;transform:translateY(-50%) translateX(6px);white-space:nowrap;
+  padding:5px 10px;border-radius:8px;background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;
+  opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.sidenav a:hover span{opacity:1;transform:translateY(-50%) translateX(0)}
+@media (min-width:1240px){.sidenav{display:flex}}
+
+.sec{margin-top:56px}
+.sec-label{margin:0;text-align:center;font-family:'M PLUS 1',sans-serif;font-size:12.5px;letter-spacing:.16em;color:var(--blue);font-weight:800}
+.sec-title{margin:6px 0 6px;text-align:center;font-family:'M PLUS 1',sans-serif;font-size:clamp(21px,4.4vw,31px);line-height:1.42;color:var(--navy);font-weight:800}
+.sec-lead{margin:0 auto;max-width:36em;text-align:center;font-size:14.5px;color:var(--muted)}
+
+.card{margin-top:22px;padding:clamp(20px,3.4vw,32px);border-radius:var(--radius);background:var(--white);
+  border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card h3{margin:26px 0 10px;font-family:'M PLUS 1',sans-serif;font-size:clamp(17px,2.8vw,21px);color:var(--navy);line-height:1.5}
+.card h3:first-child{margin-top:0}
+.card p{margin:0 0 12px}
+.card p:last-child{margin-bottom:0}
+.hl{background:linear-gradient(transparent 62%,rgba(8,102,255,.22) 62%);font-weight:800}
+
+.tilt{transform-style:preserve-3d;transition:transform .3s ease}
+
+.step{display:flex;gap:16px;padding:20px 0;border-top:1px dashed var(--line)}
+.step:first-of-type{border-top:0;padding-top:4px}
+.step-no{flex:0 0 42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;
+  background:var(--grad-accent);color:#fff;font-family:'M PLUS 1',sans-serif;font-weight:800;font-size:17px;
+  box-shadow:0 8px 20px rgba(8,102,255,.28)}
+.step-body{flex:1;min-width:0}
+.step-body h4{margin:6px 0 8px;font-family:'M PLUS 1',sans-serif;font-size:16.5px;color:var(--navy);line-height:1.55}
+.step-body p{margin:0 0 10px;font-size:15px}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:6px}
+.grid-item{padding:20px;border-radius:var(--radius-sm);background:var(--blue-soft);border:1px solid var(--line)}
+.grid-item .tag{display:inline-block;margin-bottom:8px;padding:3px 11px;border-radius:999px;background:var(--navy);color:#fff;font-size:11.5px;font-weight:800}
+.grid-item h4{margin:0 0 7px;font-family:'M PLUS 1',sans-serif;font-size:16px;color:var(--navy);line-height:1.5}
+.grid-item p{margin:0;font-size:14px;color:var(--ink-soft)}
+
+.takeaway{margin:0;padding:0;list-style:none;counter-reset:tk}
+.takeaway li{counter-increment:tk;position:relative;padding:14px 0 14px 46px;border-bottom:1px dashed var(--line)}
+.takeaway li:last-child{border-bottom:0}
+.takeaway li::before{content:counter(tk);position:absolute;left:0;top:14px;width:30px;height:30px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;font-size:14px;font-weight:800}
+.takeaway b{display:block;color:var(--navy);font-size:16px;line-height:1.6}
+.takeaway span{display:block;margin-top:5px;font-size:14.5px;color:var(--ink-soft)}
+
+.check{margin:0;padding:0;list-style:none}
+.check li{position:relative;padding:9px 0 9px 32px;font-size:15px}
+.check li::before{content:"";position:absolute;left:4px;top:17px;width:14px;height:8px;border-left:3px solid var(--blue);border-bottom:3px solid var(--blue);transform:rotate(-45deg)}
+
+.prompt{position:relative;margin:18px 0;border-radius:var(--radius-sm);background:var(--code-bg);
+  box-shadow:0 16px 38px rgba(4,20,54,.32);overflow:hidden}
+.prompt-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;
+  background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.09)}
+.prompt-head b{color:#cfe4ff;font-size:12.5px;font-weight:800;letter-spacing:.04em;min-width:0}
+.copy{flex-shrink:0;white-space:nowrap;  
+  display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:0;border-radius:9px;cursor:pointer;
+  background:var(--blue);color:#fff;font-size:12px;font-weight:800;font-family:inherit;transition:background .2s ease,transform .2s ease}
+.copy:hover{transform:translateY(-1px)}
+.copy.done{background:var(--ok)}
+.prompt pre{margin:0;padding:18px 18px 20px;overflow-x:auto;color:#e6f0ff;font-size:13.5px;line-height:1.85;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Noto Sans JP',monospace;white-space:pre-wrap;word-break:break-word}
+
+.prompt.code pre{white-space:pre;word-break:normal;overflow-wrap:normal;font-size:12.5px;-webkit-overflow-scrolling:touch}
+
+.figure{margin:22px 0;border-radius:var(--radius-sm);overflow:hidden;background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow)}
+.figure img{width:100%}
+.figure figcaption{padding:12px 16px;font-size:13px;color:var(--muted);background:var(--blue-soft);border-top:1px solid var(--line)}
+
+.video{margin:20px 0 0;border-radius:var(--radius-sm);overflow:hidden;background:#050d1f;aspect-ratio:16/9;box-shadow:var(--shadow)}
+.video iframe,.video video{width:100%;height:100%;border:0;display:block}
+.video-note{margin:12px 0 0;font-size:13.5px;color:var(--muted)}
+
+.table-scroll{margin:18px 0;overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--white)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:800;white-space:nowrap}
+tbody tr:nth-child(even){background:var(--blue-soft)}
+tbody tr:last-child td{border-bottom:0}
+
+.note{margin:16px 0;padding:14px 18px;border-radius:var(--radius-sm);background:var(--blue-soft);border-left:4px solid var(--blue);font-size:14px;color:var(--ink-soft)}
+.note.warn{background:#fff8ec;border-left-color:var(--warn)}
+.note b{color:var(--navy)}
+.example{margin:12px 0;padding:14px 18px;border-radius:var(--radius-sm);background:#f4f8ff;border:1px dashed var(--blue);font-size:14px}
+
+.closing{margin-top:64px;padding:clamp(30px,5vw,52px);border-radius:26px;color:#fff;text-align:center;
+  background:var(--grad-hero);box-shadow:var(--shadow-hover);position:relative;overflow:hidden}
+.closing::after{content:"";position:absolute;width:340px;height:340px;left:-120px;bottom:-160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(40,211,255,.28),transparent 70%);animation:float 8s ease-in-out infinite}
+.closing-inner{position:relative;z-index:1}
+.closing h2{margin:0 0 12px;font-family:'M PLUS 1',sans-serif;font-size:clamp(20px,4vw,30px);line-height:1.45}
+.closing p{margin:0 auto 10px;max-width:38em;font-size:15px;opacity:.94}
+.closing .btn{margin-top:20px}
+.bonus{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:24px 0 4px;text-align:left}
+.bonus div{padding:14px 16px;border-radius:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
+.bonus b{display:block;font-family:'M PLUS 1',sans-serif;font-size:19px}
+.bonus span{font-size:12.5px;opacity:.85}
+
+.foot{margin-top:34px;text-align:center;font-size:12.5px;color:var(--muted)}
+
+.totop{position:fixed;right:20px;bottom:22px;z-index:50;width:48px;height:48px;border:0;border-radius:50%;cursor:pointer;
+  background:var(--navy);color:#fff;font-size:19px;box-shadow:var(--shadow);opacity:0;pointer-events:none;
+  transition:opacity .3s ease,transform .3s ease}
+.totop.show{opacity:1;pointer-events:auto}
+.totop:hover{transform:translateY(-3px)}
+
+.rv{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
+.motion-ready .rv{opacity:0;transform:translateY(26px)}
+.motion-ready .rv.in{opacity:1;transform:none}
+
+@media (max-width:640px){
+  body{font-size:15.5px;line-height:1.9}
+  .step{gap:12px}
+  .step-no{flex-basis:36px;height:36px;font-size:15px}
+  .totop{right:14px;bottom:14px;width:44px;height:44px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.motion-ready .rv{opacity:1;transform:none}
+}
+</style>
+<style>
+.diagram{margin:20px 0;padding:18px;border-radius:var(--radius-sm);background:var(--blue-soft);border:1px solid var(--line);overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:620px;height:auto}
+td:first-child{min-width:7.5em}
+.diagram figcaption{margin-top:10px;font-size:13px;color:var(--muted)}
+.rank{display:inline-block;margin-right:8px;padding:2px 12px;border-radius:999px;background:var(--grad-accent);color:#fff;font-size:13px;font-weight:900;vertical-align:middle}
+.mini{padding:18px 0;border-top:1px dashed var(--line)}
+.mini:first-of-type{border-top:0;padding-top:4px}
+.mini h3{margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="progress"><span id="bar"></span></div>
+
+<nav class="sidenav" id="sidenav" aria-label="セクション">
+  <a href="#s1"><span>入れ方</span></a>
+  <a href="#s2"><span>早見表</span></a>
+  <a href="#s3"><span>10位 Canva</span></a>
+  <a href="#s4"><span>9位 Notion</span></a>
+  <a href="#s5"><span>8位 Slack</span></a>
+  <a href="#s6"><span>7位 Productivity</span></a>
+  <a href="#s7"><span>6位 Document Skills</span></a>
+  <a href="#s8"><span>5位 Frontend Design</span></a>
+  <a href="#s9"><span>4位 Superpowers</span></a>
+  <a href="#s10"><span>3位 Marketing Skills</span></a>
+  <a href="#s11"><span>2位 Skill Creator</span></a>
+  <a href="#s12"><span>1位 Plugin Create</span></a>
+  <a href="#s13"><span>組み合わせ</span></a>
+  <a href="#s14"><span>3つの注意</span></a>
+  <a href="#s15"><span>詰まった時</span></a>
+</nav>
+
+<div class="page">
+  <header class="hero" id="hero">
+    <div class="hero-glow" id="glow"></div>
+    <div class="hero-inner">
+      <span class="badge"><span class="dot"></span>保存版資料｜入れ方とプロンプトまとめ</span>
+      <h1>プロが使ってる<br><span class="grad">Claudeプラグイン<span style="white-space:nowrap">10選</span></span></h1>
+      <p class="lead">保存版資料のお受け取り、ありがとうございます。この資料では、Claudeのプラグインの入れ方と呼び出し方、仕事で使える10個それぞれの入れ方と使いどころ、そのまま使えるプロンプト、組み合わせ方、入れる前に知っておくべき3つの注意までをまとめています。</p>
+
+      <div class="hero-stats">
+        <div class="hero-stat"><b>10個</b><span>仕事で使えるプラグイン</span></div>
+        <div class="hero-stat"><b>27本</b><span>そのまま使えるプロンプト</span></div>
+        <div class="hero-stat"><b>3つ</b><span>入れる前に知っておく注意</span></div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn" href="#s1">資料を読みはじめる →</a>
+      </div>
+
+      <p class="hero-meta">※ このページはブックマークして、作業しながら見返してください。内容は2026年10月時点の確認です。画面の表示名やインストール数は変わることがあります。</p>
+    </div>
+  </header>
+
+  <nav class="toc rv">
+    <h2>この資料の中身</h2>
+    <ol>
+      <li><a href="#s1">プラグインとは／入れ方と呼び出し方</a></li>
+      <li><a href="#s2">10個の早見表</a></li>
+      <li><a href="#s3">第10位 Canva</a></li>
+      <li><a href="#s4">第9位 Notion</a></li>
+      <li><a href="#s5">第8位 Slack</a></li>
+      <li><a href="#s6">第7位 Productivity</a></li>
+      <li><a href="#s7">第6位 Document Skills</a></li>
+      <li><a href="#s8">第5位 Frontend Design</a></li>
+      <li><a href="#s9">第4位 Superpowers</a></li>
+      <li><a href="#s10">第3位 Marketing Skills</a></li>
+      <li><a href="#s11">第2位 Skill Creator</a></li>
+      <li><a href="#s12">第1位 Plugin Create</a></li>
+      <li><a href="#s13">組み合わせると一気に化ける</a></li>
+      <li><a href="#s14">入れる前に知るべき3つの注意</a></li>
+      <li><a href="#s15">詰まった時のチェックリスト</a></li>
+    </ol>
+  </nav>
+
+  <section class="sec" id="s1" data-short="入れ方">
+    <p class="sec-label rv">STEP 01</p>
+    <h2 class="sec-title rv">プラグインとは／入れ方と呼び出し方</h2>
+    <p class="sec-lead rv">プロが作った「仕事のやり方」と「ツールへのつなぎ方」を、丸ごとClaudeに入れる仕組みです。</p>
+
+    <div class="card rv">
+      <p>これまでは、仕事の手順を1つずつ教えて、使うツールも1つずつつないで、という設定が必要でした。プラグインは、それをプロが組んだセットとして配っているものです。<span class="hl">入れるだけで、Claudeがその仕事のやり方とツールを使えるようになります。</span></p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 960 250" role="img" aria-label="プラグインはスキル（仕事の手順書）とコネクタ（ツールにつなぐ部分）のセット。入れるとClaudeが手順に沿ってツールを使う">
+          <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0866ff"/></marker></defs>
+          <rect x="20" y="30" width="380" height="190" rx="16" fill="#fff" stroke="#0866ff" stroke-width="2"/>
+          <text x="210" y="62" fill="#0b2a5b" font-size="20" font-weight="700" text-anchor="middle">プラグイン</text>
+          <rect x="45" y="85" width="155" height="110" rx="12" fill="#e8f1ff"/>
+          <text x="122" y="125" fill="#0b2a5b" font-size="18" font-weight="700" text-anchor="middle">スキル</text>
+          <text x="122" y="155" fill="#22304a" font-size="15" text-anchor="middle">仕事の手順書</text>
+          <rect x="220" y="85" width="155" height="110" rx="12" fill="#e8f1ff"/>
+          <text x="297" y="125" fill="#0b2a5b" font-size="18" font-weight="700" text-anchor="middle">コネクタ</text>
+          <text x="297" y="155" fill="#22304a" font-size="15" text-anchor="middle">ツールにつなぐ</text>
+          <path d="M405 125 L520 125" stroke="#0866ff" stroke-width="3" marker-end="url(#a1)"/>
+          <text x="462" y="110" fill="#5c6880" font-size="14" text-anchor="middle">入れるだけ</text>
+          <rect x="525" y="70" width="150" height="110" rx="14" fill="#0866ff"/>
+          <text x="600" y="132" fill="#fff" font-size="19" font-weight="700" text-anchor="middle">Claude</text>
+          <path d="M680 125 L770 125" stroke="#0866ff" stroke-width="3" marker-end="url(#a1)"/>
+          <rect x="775" y="40" width="165" height="50" rx="10" fill="#fff" stroke="#d8e4f6" stroke-width="2"/><text x="857" y="72" fill="#22304a" font-size="15" text-anchor="middle">Canva・Notion</text>
+          <rect x="775" y="100" width="165" height="50" rx="10" fill="#fff" stroke="#d8e4f6" stroke-width="2"/><text x="857" y="132" fill="#22304a" font-size="15" text-anchor="middle">Slack・メール</text>
+          <rect x="775" y="160" width="165" height="50" rx="10" fill="#fff" stroke="#d8e4f6" stroke-width="2"/><text x="857" y="192" fill="#22304a" font-size="15" text-anchor="middle">Word・PowerPoint</text>
+        </svg>
+        <figcaption>コネクタの裏側では、MCPというAI専用の窓口が動いています。名前は覚えなくて大丈夫です。</figcaption>
+      </figure>
+
+      <h3>入れる場所は2つ</h3>
+      <div class="grid">
+        <div class="grid-item tilt"><span class="tag">チャットの画面</span><h4>カスタマイズ → プラグイン</h4><p>Claudeのデスクトップアプリ（またはWeb版）の左のメニューの「カスタマイズ」から「プラグイン」を開き、一覧（Discover）から選んで「追加」します。</p></div>
+        <div class="grid-item tilt"><span class="tag">Claude Codeの画面</span><h4>入力欄の「＋」→ プラグイン</h4><p>同じデスクトップアプリの中で、Claude Codeの画面に切り替えます。入力欄の「＋」から「プラグイン」を選ぶと、同じように探して入れられます。黒い画面にコマンドを打つ必要はありません。</p></div>
+      </div>
+      <a class="toollink" href="https://support.claude.com/en/articles/13837440-use-plugins-in-claude" target="_blank" rel="noopener">Use plugins in Claude（Claude公式ヘルプ）</a>
+      <a class="toollink" href="https://claude.com/plugins" target="_blank" rel="noopener">Claudeのプラグイン一覧</a>
+
+      <h3>呼び出し方</h3>
+      <p>普通に頼めば、関係するプラグインを自動で使ってくれます。<b>確実に使わせたい時は、入力欄に「/」を打つ</b>と、入っているスキルやコマンドの一覧が出るので、そこから選んでください。</p>
+
+      <div class="note"><b>ポイント：</b>プラグインはClaudeの有料プラン（Pro以上）で使えます。Canva・Notion・Slackのように相手のサービスとつなぐものは、そのサービスのアカウントが必要で、使える範囲はそのサービスのプランでも変わります。</div>
+    </div>
+  </section>
+
+  <section class="sec" id="s2" data-short="早見表">
+    <p class="sec-label rv">STEP 02</p>
+    <h2 class="sec-title rv">10個の早見表</h2>
+    <p class="sec-lead rv">選んだ基準は「毎日の仕事が実際に減るか」「プロが本当に使っているか」「エンジニアでなくても使えるか」の3つです。</p>
+
+    <div class="card rv">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>順位</th><th>プラグイン</th><th>できること</th><th>入れる場所</th><th>必要なもの</th></tr></thead>
+          <tbody>
+            <tr><td>10位</td><td>Canva</td><td>Canvaのデザインを会話で直す・サイズ違いに展開・ブランドのチェック</td><td>Claude Code</td><td>Canvaのアカウント</td></tr>
+            <tr><td>9位</td><td>Notion</td><td>ページを探す・作る・データベースを更新する、議事録を残す</td><td>Claude Code</td><td>Notionのアカウント</td></tr>
+            <tr><td>8位</td><td>Slack</td><td>チャンネルの要約、返信の下書き、投稿</td><td>Claude Code／チャット</td><td>Slackのワークスペース</td></tr>
+            <tr><td>7位</td><td>Productivity</td><td>やることリスト・1日の計画・仕事の呼び方を覚える</td><td>チャット</td><td>メール・カレンダー等をつなぐと最大限に</td></tr>
+            <tr><td>6位</td><td>Document Skills</td><td>Word・Excel・PowerPoint・PDFを作る・読む・直す</td><td>Claude Code（チャットは最初からできる）</td><td>なし</td></tr>
+            <tr><td>5位</td><td>Frontend Design</td><td>AIっぽくないホームページ・LPを作る</td><td>Claude Code</td><td>なし</td></tr>
+            <tr><td>4位</td><td>Superpowers</td><td>壁打ち・計画・原因調査など、仕事の進め方</td><td>Claude Code</td><td>なし</td></tr>
+            <tr><td>3位</td><td>Marketing Skills</td><td>コピー・売り出す計画・ステップメール・SEOなど50個以上のマーケのスキル</td><td>Claude Code（GitHubから）</td><td>なし</td></tr>
+            <tr><td>2位</td><td>Skill Creator</td><td>うまくいった仕事をスキルにする・直す・効果を測る</td><td>最初から入っている</td><td>なし</td></tr>
+            <tr><td>1位</td><td>Plugin Create</td><td>会話しながら自分専用のプラグインを作る</td><td>チャット</td><td>なし</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>どれから入れる？：</b>全部を一度に入れる必要はありません。まずは自分の仕事に一番近いものを1個だけ入れて、1回動かしてみてください。</div>
+    </div>
+  </section>
+
+  <section class="sec" id="s3" data-short="10位 Canva">
+    <p class="sec-label rv">第10位</p>
+    <h2 class="sec-title rv">Canva：デザインの直しとサイズ違いを会話で</h2>
+    <p class="sec-lead rv">デザインツールのCanvaが出している公式のプラグインです。Claude Codeの画面で使います。</p>
+
+    <div class="card rv">
+      <p>Canvaのデザインを、Claudeとの会話だけで直したり、SNSごとのサイズに展開したり、ブランドの色やフォントのルールに合っているかをチェックしたりできます。直しは、反映する前にプレビューを見て承認する流れになっているので、勝手に書き換わることはありません。<b>使う前に、Canvaのアカウントをつなぐ必要があります。</b></p>
+      <div class="prompt">
+        <div class="prompt-head"><b>サイズ違いに展開して、ブランドのずれも確認する</b><button class="copy" type="button">コピー</button></div>
+        <pre>Canvaにある「AI活用セミナー告知」のデザインを、Instagramのストーリーズ用のサイズにも展開してください。
+ブランドの色やフォントから外れているところがあれば、直す前に教えてください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>デザインのフィードバックをもらう</b><button class="copy" type="button">コピー</button></div>
+        <pre>Canvaにある「AI活用セミナー告知」のデザインを見て、パッと見で一番伝えたいことが伝わるか、文字の読みやすさはどうかをチェックしてください。
+直した方がいいところを、優先度の高い順に3つ教えてください。</pre>
+      </div>
+      <div class="note"><b>使い方のコツ：</b>1個1個サイズを変えて文字の位置を直す作業をまとめて任せ、最後の仕上がりは自分の目で見る使い方が一番です。表のデータから何十枚も一気に作る機能は、Canvaの企業向けのプランが必要です。Canvaを使っている人にしか関係がないので10位にしました。</div>
+      <a class="toollink" href="https://claude.com/plugins/canva" target="_blank" rel="noopener">Canva プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s4" data-short="9位 Notion">
+    <p class="sec-label rv">第9位</p>
+    <h2 class="sec-title rv">Notion：決まったことを自動で溜めていく</h2>
+    <p class="sec-lead rv">Notionの会社が出している公式のプラグインです。Claude Codeの画面で使います。</p>
+
+    <div class="card rv">
+      <p>Notionのページを探したり、新しいページを作ったり、データベースを更新したりできます。会話で決まったことを残すスキルや、会議のメモを整理するスキルも最初から入っています。「/notion-search」「/notion-create-page」「/notion-query-database」のようなコマンドでも呼び出せます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>打ち合わせのメモを議事録にして保存する</b><button class="copy" type="button">コピー</button></div>
+        <pre>このメモから、決まったことと、誰がいつまでに何をするかをまとめて、Notionの「議事録」データベースに新しいページとして保存してください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>Notionの中から決まっていることを探す</b><button class="copy" type="button">コピー</button></div>
+        <pre>Notionで「AI活用セミナー」に関するページを探して、もう決まっていることと、まだ決まっていないことを一覧にしてください。</pre>
+      </div>
+      <div class="note"><b>なぜ大事か：</b>AIは、渡した情報が多いほど自分の仕事に合った答えを返してくれます。星川は、仕事の時間の8割を、AIに渡す情報を集めて整えることに使っています。Notionに決まったことが自然に溜まっていけば、AIに渡せる情報もどんどん増えていきます。Notionを使っている人なら、毎日の記録が丸ごと楽になります。</div>
+      <a class="toollink" href="https://claude.com/plugins/notion" target="_blank" rel="noopener">Notion プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s5" data-short="8位 Slack">
+    <p class="sec-label rv">第8位</p>
+    <h2 class="sec-title rv">Slack：チャンネルの要約と返信の下書き</h2>
+    <p class="sec-lead rv">Slackの会社が出している公式のプラグインで、Anthropicの認定も付いています。Claude Codeの画面でも、チャットの画面でも使えます。</p>
+
+    <div class="card rv">
+      <p>チャンネルの話を要約したり、メッセージの下書きを作ったり、そのまま投稿したりできます。インストール数は9万回を超えています（2026年10月時点）。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>今週の要約と、返信が必要なものの一覧</b><button class="copy" type="button">コピー</button></div>
+        <pre>Slackの #プロジェクト チャンネルで、今週話されたことを3行でまとめてください。
+僕が返信しないといけないメッセージがあれば、一覧にして返信の下書きも作ってください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>お知らせの下書きを作る（送る前に確認）</b><button class="copy" type="button">コピー</button></div>
+        <pre>Slackの #お知らせ チャンネルに投稿する、来週の定例会議の連絡を下書きしてください。
+日時は（ここに日時）、議題は（ここに議題）です。
+投稿する前に、文面を一度見せてください。</pre>
+      </div>
+      <div class="note"><b>星川の使い方：</b>Claude Codeで作った投稿をSlackに送ってもらい、確認してGOを出すだけ、という形で回していました。AIに作らせて、自分は確認するだけ、という形がこれ1個で作れます。チームや外注さんとSlackでやり取りしている人に向いています。</div>
+      <a class="toollink" href="https://claude.com/plugins/slack" target="_blank" rel="noopener">Slack プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s6" data-short="7位 Productivity">
+    <p class="sec-label rv">第7位</p>
+    <h2 class="sec-title rv">Productivity：やることと仕事の中身を覚えてもらう</h2>
+    <p class="sec-lead rv">Anthropicの公式プラグインです。チャットの画面で使います。</p>
+
+    <div class="card rv">
+      <p>やることリストの管理と1日の計画、そして取引先の名前や案件の呼び方のような「仕事の中身」を覚えてもらうためのプラグインです。一度覚えれば、毎回説明しなくて済みます。</p>
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <h4>最初に「/start」と打つ</h4>
+          <p>やることリストと、進み具合が見える画面が作られます。</p>
+        </div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>はじめる</b><button class="copy" type="button">コピー</button></div>
+        <pre>/start</pre>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <h4>メール・カレンダー・チャットをつないで「/update」</h4>
+          <p>「/update」だけなら、止まっているやることの整理です。「--comprehensive」を付けると、メールや予定やチャットに全部目を通して、抜けていた宿題を拾ってくれます。</p>
+        </div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>抜けていた宿題を拾う</b><button class="copy" type="button">コピー</button></div>
+        <pre>/update --comprehensive</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>仕事の呼び方を覚えてもらう</b><button class="copy" type="button">コピー</button></div>
+        <pre>覚えておいてください。「AIセミナー」と言ったら、毎月第2土曜に開いている個人事業主向けのセミナーのことです。担当は田中さんです。</pre>
+      </div>
+      <div class="note"><b>星川の使い方：</b>Claude CodeでAI秘書を作っていて、毎朝9時にメールとチャットと予定をまとめてDiscordに届けてもらっています。それに近いことが、これ1個でできます。メールやカレンダーをつないで初めて一番便利になるので7位です。まずは「/start」だけ打ってみてください。</div>
+      <a class="toollink" href="https://claude.com/plugins/productivity" target="_blank" rel="noopener">Productivity プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s7" data-short="6位 Document Skills">
+    <p class="sec-label rv">第6位</p>
+    <h2 class="sec-title rv">Document Skills：Word・Excel・PowerPoint・PDFを直接作る</h2>
+    <p class="sec-lead rv">Anthropicの公式で、認定も付いているプラグインです。Claude Codeの画面で使う時に入れます。</p>
+
+    <div class="card rv">
+      <p>Word・Excel・PowerPoint・PDFを、Claudeが直接作ったり、読んだり、直したりできるようになります。チャットの画面では最初から同じことができるので、<b>Claude Codeの画面で、パソコンのフォルダにあるファイルを使って資料を作りたい時</b>に入れてください。できるのは、開けばそのまま直せる普通のファイルです。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>メモから提案書のPowerPointを作る</b><button class="copy" type="button">コピー</button></div>
+        <pre>このフォルダにある打ち合わせのメモから、クライアントに出す提案書をPowerPointで作ってください。
+10枚以内で、最後のページに見積もりの表を入れてください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>CSVから集計表とグラフのExcelを作る</b><button class="copy" type="button">コピー</button></div>
+        <pre>このフォルダにある売上のCSVから、月ごとの集計表と、売上の推移が分かるグラフが入ったExcelファイルを作ってください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>PDFから大事なところを抜き出す</b><button class="copy" type="button">コピー</button></div>
+        <pre>このフォルダにある契約書のPDFから、支払いの条件と解約の条件を抜き出して、表にまとめてください。</pre>
+      </div>
+      <div class="note"><b>星川の使い方：</b>星川もWordの資料を作るスキルを入れています。チャットの画面なら最初からできるので、Claude Codeで資料を作る人向けとして6位にしました。お客さんの名前や金額が入ったファイルを扱う時は、下の「入れる前に知るべき3つの注意」も読んでおいてください。</div>
+      <a class="toollink" href="https://claude.com/plugins/document-skills" target="_blank" rel="noopener">document-skills プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s8" data-short="5位 Frontend Design">
+    <p class="sec-label rv">第5位</p>
+    <h2 class="sec-title rv">Frontend Design：AIっぽくないページを作る</h2>
+    <p class="sec-lead rv">Anthropicの公式プラグインです。Claude Codeの画面で使います。インストール数は全プラグインで1位、100万回以上です（2026年10月時点）。</p>
+
+    <div class="card rv">
+      <p>AIに作らせたページは、どれも似たような見た目になりがちです。このプラグインを入れると、誰に向けたページで、どんな雰囲気にするのかを先に決めてから、文字・色・動きまでこだわって作ってくれます。<b>頼み方は何も変えなくて大丈夫です。</b>ページを作ってと頼むと、自動でこのプラグインが使われます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>申し込みページを作る</b><button class="copy" type="button">コピー</button></div>
+        <pre>個人事業主向けの「AI活用セミナー」の申し込みページを作ってください。
+落ち着いていて、信頼できそうな雰囲気にしてください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>スマホで見た時を直す</b><button class="copy" type="button">コピー</button></div>
+        <pre>スマホで見た時に、最初の画面で申し込みボタンが見えるように直してください。
+文字が小さすぎるところがあれば、読みやすい大きさにしてください。</pre>
+      </div>
+      <div class="note"><b>試し方：</b>入れる前と後で同じ頼み方をして、2つのページを並べてみてください。違いが一番分かりやすいプラグインです。使う場面はページを作る時に限られますが、入れる前と後の差が一番大きいので5位にしました。LPや申し込みページを自分で作る人なら、入れない理由がありません。</div>
+      <a class="toollink" href="https://claude.com/plugins/frontend-design" target="_blank" rel="noopener">Frontend Design プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s9" data-short="4位 Superpowers">
+    <p class="sec-label rv">第4位</p>
+    <h2 class="sec-title rv">Superpowers：いきなり作らず、質問してから作る</h2>
+    <p class="sec-lead rv">Jesse Vincentさんという開発者の方が作ったプラグインです。Claude Codeの画面で使います。インストール数は全プラグインで2位、100万回以上です（2026年10月時点）。</p>
+
+    <div class="card rv">
+      <p>Anthropicの認定はない個人の方のものですが、中身が公開されていて、たくさんの人に使われています。いきなり作り始めずにアイデアを壁打ちする、計画を立ててから作る、うまくいかない時は原因を順番に調べる、といった仕事の進め方がスキルで入っています。もともとはプログラムを作る人向けですが、壁打ちと計画はどんな仕事にも使えます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>企画を一緒に考える</b><button class="copy" type="button">コピー</button></div>
+        <pre>/brainstorming 新しいオンライン講座の企画を一緒に考えたいです。</pre>
+      </div>
+      <p>いきなり答えを出すのではなく、「誰向けですか」「受講した人にどうなってほしいですか」と、1個ずつ質問してくれます。答えていくと、企画の形が固まっていきます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>決まった企画を計画にする</b><button class="copy" type="button">コピー</button></div>
+        <pre>ここまでで決まった企画を、公開までにやることの計画にしてください。
+順番と、それぞれにかかる時間の目安も付けてください。</pre>
+      </div>
+      <div class="note"><b>なぜズレなくなるか：</b>AIの答えがズレるのは、こちらが決めきれていないところを、AIが想像で埋めてしまうからです。最初に質問してもらって、決めてから作るので、作り直しが減ります。星川もこの「brainstorming」を入れています。</div>
+      <a class="toollink" href="https://claude.com/plugins/superpowers" target="_blank" rel="noopener">Superpowers プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s10" data-short="3位 Marketing Skills">
+    <p class="sec-label rv">第3位</p>
+    <h2 class="sec-title rv">Marketing Skills：マーケの仕事の型が50個以上</h2>
+    <p class="sec-lead rv">アメリカのマーケターのCorey Haines（コーリー・ヘインズ）さんが作ったものです。Claude Codeの画面で使います。</p>
+
+    <div class="card rv">
+      <p>キャッチコピーやLPの文章、商品を売り出すまでの計画、ステップメール、SEOの診断、広告の文章など、マーケティングのスキルが50個以上入っています。プログラムの公開場所のGitHubで5万以上のお気に入りが付いている、人気のスキル集です（2026年10月時点でスキル52個）。星川も、この中のコピーライティングや、売り出すまでの計画のスキルを入れています。</p>
+
+      <h3>入れ方</h3>
+      <p>Claudeのプラグイン一覧にはまだ載っていないので、Claude Codeの画面でこう頼みます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>Marketing Skillsを入れる</b><button class="copy" type="button">コピー</button></div>
+        <pre>coreyhaines31/marketingskills のマーケティングスキルを、Claude Codeにプラグインとして入れてください。</pre>
+      </div>
+      <div class="note"><b>うまく入らない時：</b>「＋」→「プラグイン」でマーケットプレイス（プラグインの置き場所）を追加できる画面があれば、「coreyhaines31/marketingskills」を追加して、「marketing-skills」を入れてください。個人の方が作ったものなので、下の「入れる前に知るべき3つの注意」の1つ目も確認してから入れてください。</div>
+
+      <h3>使ってみる</h3>
+      <div class="prompt">
+        <div class="prompt-head"><b>申し込みページの文章を書く</b><button class="copy" type="button">コピー</button></div>
+        <pre>コピーライティングのスキルを使って、個人事業主向けの「AI活用セミナー」の申し込みページの文章を書いてください。
+参加する人が一番困っていることから書き始めて、申し込みボタンの文言も3パターン出してください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>商品を売り出すまでの計画を立てる</b><button class="copy" type="button">コピー</button></div>
+        <pre>商品を売り出すまでの計画のスキルを使って、新しいオンライン講座を4週間後に売り出すまでの計画を立ててください。
+SNS・メール・LINEで、いつ何を出すかを週ごとに並べてください。</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>申し込み後のステップメールを作る</b><button class="copy" type="button">コピー</button></div>
+        <pre>メールのスキルを使って、無料セミナーに申し込んだ人に送る、5通のステップメールを作ってください。
+1通目は申し込みのお礼、最後の1通は講座の案内にしてください。</pre>
+      </div>
+      <div class="note"><b>チャットの画面で使いたい方へ：</b>Anthropic公式の「Marketing」という近いプラグインもあります。キャンペーンの計画やステップメールなどが入っています。マーケの仕事をしている方なら、文章を書く時間がまとめて減るので3位にしました。</div>
+      <a class="toollink" href="https://github.com/coreyhaines31/marketingskills" target="_blank" rel="noopener">Marketing Skills（GitHub）</a>
+      <a class="toollink" href="https://claude.com/plugins/marketing" target="_blank" rel="noopener">Marketing プラグイン（Anthropic公式）</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s11" data-short="2位 Skill Creator">
+    <p class="sec-label rv">第2位</p>
+    <h2 class="sec-title rv">Skill Creator：うまくいった仕事を、次から再現する</h2>
+    <p class="sec-lead rv">Anthropicの公式で、スキルを作るための道具です。デスクトップアプリには最初から入っています。</p>
+
+    <div class="card rv">
+      <p>スキルは「この仕事は、この順番で、こう進める」という仕事の手順書です。Skill Creatorを使うと、1回うまくいった仕事を、次から同じやり方で再現できるようになります。オフになっていたら、カスタマイズの「スキル」の画面でオンにするだけです。Claude Codeの画面では、プラグインとして入れられます。</p>
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <h4>まず普通に仕事をしてもらう</h4>
+          <p>何回か直して、満足のいく内容になるまで進めます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <h4>同じ会話のまま、スキルにしてもらう</h4>
+          <p>直した中身ごと、手順書にしてくれます。</p>
+        </div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>今の仕事をスキルにする</b><button class="copy" type="button">コピー</button></div>
+        <pre>これまでのやり取りを全部参照して、このタスクをSkill Creatorでスキル化してください。
+ほかの案件でも使えるように、今回だけの名前や数字は外してください。</pre>
+      </div>
+      <div class="step">
+        <div class="step-no">3</div>
+        <div class="step-body">
+          <h4>次からは、同じ仕事を頼むだけ</h4>
+          <p>作ったスキルのやり方で進めてくれます。結果がいまいちだった時は、スキルを直してもらいます。</p>
+        </div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>スキルを直す</b><button class="copy" type="button">コピー</button></div>
+        <pre>さっきのスキルを使った結果が、（ここにいまいちだった点）でした。
+Skill Creatorで、どこを直せばいいか見直して、スキルを更新してください。</pre>
+      </div>
+      <div class="note"><b>星川の使い方：</b>YouTubeのリサーチやX投稿の作成など、よくやる作業をスキルにしていて、会社の仕組みはこのスキルで回しています。スキルの細かい作り方は覚えなくて大丈夫です。星川も細かいところはSkill Creatorに任せています。1個作るたびに、AIに任せられる仕事が1つずつ増えていくので2位にしました。</div>
+      <a class="toollink" href="https://claude.com/plugins/skill-creator" target="_blank" rel="noopener">skill-creator プラグイン</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s12" data-short="1位 Plugin Create">
+    <p class="sec-label rv">第1位</p>
+    <h2 class="sec-title rv">Plugin Create：自分専用のプラグインを会話で作る</h2>
+    <p class="sec-lead rv">Anthropicの公式で、チャットの画面で使います。一覧では「Cowork Plugin Management」という名前で出ています。</p>
+
+    <div class="card rv">
+      <p>ここまでの9個は、どれも誰かが自分の仕事のやり方をスキルとコネクタにまとめたものです。Plugin Createを使うと、それを<span class="hl">自分の仕事で作れます。</span>何をしたいかを伝えると、作る前に質問してくれて、答えていくと、必要なスキルとつなぐツールを考えて、そのまま追加できるファイルにしてくれます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>毎週のSNSの振り返りをプラグインにする</b><button class="copy" type="button">コピー</button></div>
+        <pre>自分専用のプラグインを作りたいです。
+毎週月曜に使う、先週のSNS投稿の数字をまとめて、伸びた理由を分析し、来週の投稿案を3つ出して、Slackの #SNS チャンネルに送るプラグインにしてください。</pre>
+      </div>
+
+      <h3>質問への答え方</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>聞かれること（例）</th><th>答え方のコツ</th></tr></thead>
+          <tbody>
+            <tr><td>どのSNSの数字を使いますか</td><td>数字をどこから取るか（書き出したCSV、つないでいるツール）まで答える</td></tr>
+            <tr><td>投稿案はどんな形で出しますか</td><td>いつも自分が書いている形（文字数、1行目の書き方）を具体的に</td></tr>
+            <tr><td>どこに送りますか</td><td>送り先のツールとチャンネル名。送る前に確認したいなら、そう伝える</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <h4>できたファイルを追加する</h4>
+          <p>カスタマイズの「プラグイン」から、自分で作ったプラグインのファイルを追加できます。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <h4>「/」から呼び出す</h4>
+          <p>毎週の振り返りが、同じ流れで動くようになります。</p>
+        </div>
+      </div>
+
+      <div class="note"><b>星川の使い方：</b>星川はこれまでに、YouTubeのリサーチから台本まで作るもの、台本からセミナーのスライドを作るもの、カレンダーやチャットのタスクをまとめるもの、AIとの会話からナレッジを残すものなど、自分専用のプラグインを作ってきました。チームで使うプランなら、作ったプラグインをメンバーに共有することもできます。自分の仕事のやり方を、そのまま人に渡せるので1位にしました。</div>
+      <a class="toollink" href="https://claude.com/plugins/cowork-plugin-management" target="_blank" rel="noopener">Cowork Plugin Management（Plugin Create）</a>
+      <a class="toollink" href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener">Anthropic公式のプラグイン集（GitHub）</a>
+    </div>
+  </section>
+
+  <section class="sec" id="s13" data-short="組み合わせ">
+    <p class="sec-label rv">STEP 03</p>
+    <h2 class="sec-title rv">組み合わせると一気に化ける</h2>
+    <p class="sec-lead rv">1個ずつでも便利ですが、組み合わせると「頼むだけで仕事が1本終わる」形になります。</p>
+
+    <div class="card rv">
+      <div class="mini">
+        <h3>文章も見た目もプロっぽいLP（3位×5位）</h3>
+        <p>Marketing Skillsで文章を作ってから、Frontend Designでページにします。</p>
+        <div class="prompt">
+          <div class="prompt-head"><b>文章を作ってからページにする</b><button class="copy" type="button">コピー</button></div>
+          <pre>コピーライティングのスキルで、個人事業主向けの「AI活用セミナー」の申し込みページの文章を作ってください。
+文章が決まったら、その文章で、落ち着いていて信頼できそうな雰囲気の申し込みページを作ってください。</pre>
+        </div>
+      </div>
+      <div class="mini">
+        <h3>打ち合わせの後を丸ごと任せる（9位×8位）</h3>
+        <p>Notionに議事録を残して、Slackで共有します。</p>
+        <div class="prompt">
+          <div class="prompt-head"><b>議事録を残して共有の下書きまで</b><button class="copy" type="button">コピー</button></div>
+          <pre>このメモから議事録を作って、Notionの「議事録」データベースに保存してください。
+そのあと、決まったことと担当を3行にまとめて、Slackの #プロジェクト に投稿する下書きを作ってください。投稿する前に見せてください。</pre>
+        </div>
+      </div>
+      <div class="mini">
+        <h3>自分の仕事をまるごと1つにまとめる（2位→1位）</h3>
+        <p>Skill Creatorで、よくやる作業を1つずつスキルにしておきます。スキルが溜まったら、Plugin Createで、使うツールと一緒に1つのプラグインにまとめます。</p>
+        <div class="prompt">
+          <div class="prompt-head"><b>スキルをまとめてプラグインにする</b><button class="copy" type="button">コピー</button></div>
+          <pre>自分専用のプラグインを作りたいです。
+これまでに作った「（ここにスキルの名前）」と「（ここにスキルの名前）」のスキルを使って、（ここにやりたい仕事）を1回で進められるプラグインにしてください。</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s14" data-short="3つの注意">
+    <p class="sec-label rv">STEP 04</p>
+    <h2 class="sec-title rv">入れる前に知るべき3つの注意</h2>
+    <p class="sec-lead rv">この3つを押さえておけば、事故はかなり防げます。</p>
+
+    <div class="card rv">
+      <h3>1. 誰が作ったかを確認してから入れる</h3>
+      <p>プラグインの中には、パソコンの中でファイルを開いたり消したり、自分と同じことができてしまうものもあります。Claudeの公式ヘルプにも「信頼できる提供元のものだけを入れてください」と書かれています。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>作った人</th><th>見分け方</th><th>この資料の例</th></tr></thead>
+          <tbody>
+            <tr><td>Anthropic（Claudeを作っている会社）</td><td>一覧に「Anthropic verified」の印、作者がAnthropic</td><td>Productivity、Document Skills、Frontend Design、Skill Creator、Plugin Create</td></tr>
+            <tr><td>ツールの会社</td><td>作者がそのツールの会社（Slackは認定の印も付いている）</td><td>Canva、Notion、Slack</td></tr>
+            <tr><td>個人の方</td><td>中身が公開されているか、たくさんの人に使われているかを見てから入れる</td><td>Superpowers、Marketing Skills</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <a class="toollink" href="https://code.claude.com/docs/en/plugins/security" target="_blank" rel="noopener">Plugin security and trust（Claude Code公式ドキュメント）</a>
+
+      <h3>2. 入れすぎない</h3>
+      <p>使わないものまで入れておくと、Claudeが関係のない道具を選んでしまったり、何が入っているか自分でも分からなくなったりします。使わなくなったプラグインは、プラグインの画面でオフにするか、外しておきましょう。</p>
+
+      <h3>3. つないだツールの権限を決めておく</h3>
+      <p>権限は、Claudeがそのツールで何をしていいかの設定です。カスタマイズの「コネクタ」から、ツールの操作ごとに次の3つから選べます。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>操作</th><th>おすすめ</th></tr></thead>
+          <tbody>
+            <tr><td>読むだけの操作（探す・要約する）</td><td>常に許可</td></tr>
+            <tr><td>何かを変える操作（送信・投稿・削除）</td><td>承認が必要</td></tr>
+            <tr><td>使わない操作</td><td>ブロック</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>これで、つないだツールでメッセージを送ったり消したりする前に、確認が来るようになります。Claude Codeを使う方は、確認を全部飛ばすモードは普段は使わないでください。</p>
+      <div class="note"><b>選べない時は：</b>アカウントの種類や画面によって、この3つが表示されないことがあります。会社のプランなら管理者が決められます。個人の場合は、送信や削除の確認が出た時に、中身を見てから許可してください。</div>
+    </div>
+  </section>
+
+  <section class="sec" id="s15" data-short="詰まった時">
+    <p class="sec-label rv">STEP 05</p>
+    <h2 class="sec-title rv">詰まった時のチェックリスト</h2>
+    <p class="sec-lead rv">よくある症状と、まず確認するところをまとめました。</p>
+
+    <div class="card rv">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>症状</th><th>まず確認すること</th></tr></thead>
+          <tbody>
+            <tr><td>プラグインの一覧に出てこない</td><td>Claudeの有料プラン（Pro以上）か。チャットの画面向けとClaude Code向けで、出てくる場所が違う（早見表の「入れる場所」）。会社のプランなら、管理者が入れられるものを決めていることがある</td></tr>
+            <tr><td>入れたのに使われない</td><td>入力欄に「/」を打って、一覧から選んで呼び出す</td></tr>
+            <tr><td>Canva・Notion・Slackが動かない</td><td>そのサービスのアカウントをつなぐ（ログインと許可）が終わっているか。つないだアカウントで見られる情報か</td></tr>
+            <tr><td>違うプラグインが使われる</td><td>使わないプラグインをオフにする。「/」で名前を指定する</td></tr>
+            <tr><td>Marketing Skillsが入らない</td><td>Claude Codeの画面で頼んでいるか。マーケットプレイスを追加する方法も試す（第3位）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><b>困った時の聞き方</b><button class="copy" type="button">コピー</button></div>
+        <pre>今こういうことをやろうとしています：（やりたいこと）
+この画面でこうなって進めません：（スクリーンショットを添付）
+何を確認すればいいか、順番に教えてください。</pre>
+      </div>
+
+      <h3>今日やることチェックリスト</h3>
+      <ul class="check">
+        <li>早見表から、自分の仕事に一番近いプラグインを1個選んだ</li>
+        <li>そのプラグインを入れて、この資料のプロンプトで1回動かした</li>
+        <li>入れたプラグインを作ったのが誰かを確認した</li>
+        <li>つないだツールの権限を、読むだけは「常に許可」、送信・削除は「承認が必要」にした</li>
+        <li>今日うまくいった仕事を1つ、Skill Creatorでスキルにした</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="closing rv">
+    <div class="closing-inner">
+      <h2>入れたプラグインに、次の仕事を渡していく</h2>
+      <p>まず1個入れて動かせたら、あとは自分の面倒くさい仕事を1つずつ渡していくだけです。実際に運用していく中での改善や、最新のAI活用の情報は、公式LINEから参加できるコミュニティで配信しています。</p>
+
+      <div class="bonus">
+        <div><b>12</b><span>コミュニティ参加特典</span></div>
+        <div><b>20</b><span>セミナー参加特典</span></div>
+        <div><b>42</b><span>受け取れる特典の合計（LINEの10大特典を含む）</span></div>
+      </div>
+
+      <p>公式LINEから参加できる「AI×SNS攻略 月額0円コミュニティ」では、追加12大特典に加えて、最新のAI×マーケティング情報を配信しています。さらに「AI駆動型コンテンツビジネス 0→100完全攻略セミナー」にご参加いただくと、20大特典を受け取れます。案内はどちらも公式LINEから届きます。</p>
+
+      <a class="btn" href="#s1">もう一度、最初から見る</a>
+    </div>
+  </section>
+
+  <p class="foot">星川ユウヤ｜AIマーケちゃんねる</p>
+
+</div>
+
+<button class="totop" id="totop" type="button" aria-label="ページ上部へ戻る">↑</button>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) document.documentElement.classList.add('motion-ready');
+
+  var bar = document.getElementById('bar');
+  var totop = document.getElementById('totop');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if (bar) bar.style.width = p + '%';
+    if (totop) totop.classList.toggle('show', h.scrollTop > 640);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if (totop) totop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  });
+
+  var rv = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -12% 0px', threshold:0});  
+    rv.forEach(function(el){ if (el.offsetHeight > window.innerHeight) { el.classList.add('in'); } else { io.observe(el); } });  
+  } else {
+    rv.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  setTimeout(function(){ rv.forEach(function(el){ el.classList.add('in'); }); }, 2500);
+
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.sec[id]'));
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.sidenav a'));
+  if (secs.length && 'IntersectionObserver' in window){
+    var spy = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var id = '#' + e.target.id;
+        tocLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+        navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+      });
+    }, {rootMargin:'-45% 0px -45% 0px'});
+    secs.forEach(function(s){ spy.observe(s); });
+  }
+
+  document.querySelectorAll('.prompt .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pre = btn.closest('.prompt').querySelector('pre');
+      if(!pre) return;
+      var text = pre.innerText;
+      var done = function(){
+        var old = btn.textContent;
+        btn.textContent = 'コピーしました';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1600);
+      };
+      if (navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try { if (document.execCommand('copy')) done(); else btn.textContent = '選択してコピー'; } catch(e){ btn.textContent = '選択してコピー'; }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  if (reduce) return;
+
+  var hero = document.getElementById('hero');
+  var glow = document.getElementById('glow');
+  if (hero && glow){
+    hero.addEventListener('pointermove', function(ev){
+      var r = hero.getBoundingClientRect();
+      glow.style.setProperty('--mx', ((ev.clientX - r.left) / r.width * 100) + '%');
+      glow.style.setProperty('--my', ((ev.clientY - r.top) / r.height * 100) + '%');
+    });
+  }
+
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    document.querySelectorAll('.tilt').forEach(function(el){
+      el.addEventListener('pointermove', function(ev){
+        var r = el.getBoundingClientRect();
+        var rx = ((ev.clientY - r.top) / r.height - .5) * -5;
+        var ry = ((ev.clientX - r.left) / r.width - .5) * 5;
+        el.style.transform = 'perspective(760px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-3px)';
+      });
+      el.addEventListener('pointerleave', function(){ el.style.transform = ''; });
+    });
+  }
+})();
+</script>
+</body>
+</html>

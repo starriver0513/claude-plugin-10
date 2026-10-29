@@ -315,10 +315,10 @@ td:first-child{min-width:7.5em}
   <section class="sec" id="s1" data-short="入れ方">
     <p class="sec-label rv">STEP 01</p>
     <h2 class="sec-title rv">プラグインとは／入れ方と呼び出し方</h2>
-    <p class="sec-lead rv">プロが作った「仕事のやり方」と「ツールへのつなぎ方」を、丸ごとClaudeに入れる仕組みです。</p>
+    <p class="sec-lead rv">「仕事のやり方」と「ツールへのつなぎ方」のセットを、丸ごとClaudeに入れる仕組みです。</p>
 
     <div class="card rv">
-      <p>これまでは、仕事の手順を1つずつ教えて、使うツールも1つずつつないで、という設定が必要でした。プラグインは、それをプロが組んだセットとして配っているものです。<span class="hl">入れるだけで、Claudeがその仕事のやり方とツールを使えるようになります。</span></p>
+      <p>これまでは、仕事の手順を1つずつ教えて、使うツールも1つずつつないで、という設定が必要でした。プラグインは、その手順（スキル）とつなぎ方（コネクタ）を、作った会社や人がセットにしたものです。中心はこの2つで、ほかにコマンドなどが入っているものもあります。<span class="hl">入れるだけで、Claudeがその仕事のやり方を使えるようになります。</span>ただし、ツールにつなぐ部分は入れただけではつながらないので、そのツールのアカウントでログインしてください。</p>
 
       <figure class="diagram">
         <svg viewBox="0 0 960 250" role="img" aria-label="プラグインはスキル（仕事の手順書）とコネクタ（ツールにつなぐ部分）のセット。入れるとClaudeが手順に沿ってツールを使う">
@@ -340,16 +340,26 @@ td:first-child{min-width:7.5em}
           <rect x="775" y="100" width="165" height="50" rx="10" fill="#fff" stroke="#d8e4f6" stroke-width="2"/><text x="857" y="132" fill="#22304a" font-size="15" text-anchor="middle">Slack・メール</text>
           <rect x="775" y="160" width="165" height="50" rx="10" fill="#fff" stroke="#d8e4f6" stroke-width="2"/><text x="857" y="192" fill="#22304a" font-size="15" text-anchor="middle">Word・PowerPoint</text>
         </svg>
-        <figcaption>コネクタの裏側では、MCPというAI専用の窓口が動いています。名前は覚えなくて大丈夫です。</figcaption>
+        <figcaption>コネクタの裏側では、MCPという、AIと外のツールをつなぐ共通の仕組みが動いています。名前は覚えなくて大丈夫です。</figcaption>
       </figure>
+
+      <h3>プラグインの前に：Gmailはコネクタだけでつながる</h3>
+      <p>GmailとGoogleカレンダーは、プラグインを入れなくても、Googleが出している公式のコネクタでつなげます。左のメニューの「カスタマイズ」→「コネクタ」で「Gmail」を選び、Googleのアカウントでログインするだけです。つないでおけば、メールをコピーしてClaudeに貼る必要はなくなります。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>返信が必要なメールをまとめる</b><button class="copy" type="button">コピー</button></div>
+        <pre>Gmailで、今日返信が必要なメールを一覧にして、それぞれ返信の下書きを作ってください。</pre>
+      </div>
+      <p>送信・返信・転送は、初めの設定では毎回、Claudeが確認してから行います。デスクトップアプリやWebで一度つないでおけば、同じアカウントのスマホのClaudeアプリからも使えます。</p>
+      <div class="note"><b>iCloudを使っている方へ：</b>iCloudのメールや予定に直接つなぐ公式のコネクタは、まだありません。Macなら、Appleのメモ・iMessageとつなぐ拡張機能をAnthropicが出しています（パソコンのデスクトップアプリだけで使えます）。</div>
+      <a class="toollink" href="https://support.claude.com/ja/articles/10166901" target="_blank" rel="noopener">Google Workspaceのコネクタ（Claude公式ヘルプ）</a>
 
       <h3>入れる場所は2つ</h3>
       <div class="grid">
         <div class="grid-item tilt"><span class="tag">チャットの画面</span><h4>カスタマイズ → プラグイン</h4><p>Claudeのデスクトップアプリ（またはWeb版）の左のメニューの「カスタマイズ」から「プラグイン」を開き、一覧（Discover）から選んで「追加」します。</p></div>
-        <div class="grid-item tilt"><span class="tag">Claude Codeの画面</span><h4>入力欄の「＋」→ プラグイン</h4><p>同じデスクトップアプリの中で、Claude Codeの画面に切り替えます。入力欄の「＋」から「プラグイン」を選ぶと、同じように探して入れられます。黒い画面にコマンドを打つ必要はありません。</p></div>
+        <div class="grid-item tilt"><span class="tag">Claude Codeの画面</span><h4>入力欄の「＋」→ プラグインの追加</h4><p>同じデスクトップアプリの中で、Claude Codeの画面に切り替えます。入力欄の「＋」から、プラグインを追加するメニュー（Add plugins。メニューに「Plugins」と出る時は「Plugins」→「Browse plugins」）を選ぶと、同じように探して入れられます。チャットの画面で入れたプラグインは、同じアカウントのClaude Codeにも入ります。黒い画面にコマンドを打つ必要はありません。</p></div>
       </div>
       <a class="toollink" href="https://support.claude.com/en/articles/13837440-use-plugins-in-claude" target="_blank" rel="noopener">Use plugins in Claude（Claude公式ヘルプ）</a>
-      <a class="toollink" href="https://claude.com/plugins" target="_blank" rel="noopener">Claudeのプラグイン一覧</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins" target="_blank" rel="noopener">Claudeのプラグイン一覧</a>
 
       <h3>呼び出し方</h3>
       <p>普通に頼めば、関係するプラグインを自動で使ってくれます。<b>確実に使わせたい時は、入力欄に「/」を打つ</b>と、入っているスキルやコマンドの一覧が出るので、そこから選んでください。</p>
@@ -372,10 +382,10 @@ td:first-child{min-width:7.5em}
             <tr><td>9位</td><td>Notion</td><td>ページを探す・作る・データベースを更新する、議事録を残す</td><td>Claude Code</td><td>Notionのアカウント</td></tr>
             <tr><td>8位</td><td>Slack</td><td>チャンネルの要約、返信の下書き、投稿</td><td>Claude Code／チャット</td><td>Slackのワークスペース</td></tr>
             <tr><td>7位</td><td>Productivity</td><td>やることリスト・1日の計画・仕事の呼び方を覚える</td><td>チャット</td><td>メール・カレンダー等をつなぐと最大限に</td></tr>
-            <tr><td>6位</td><td>Document Skills</td><td>Word・Excel・PowerPoint・PDFを作る・読む・直す</td><td>Claude Code（チャットは最初からできる）</td><td>なし</td></tr>
+            <tr><td>6位</td><td>Document Skills</td><td>Word・Excel・PowerPoint・PDFを作る・読む・直す</td><td>Claude Code（マーケットプレイスの追加で入れる。チャットは最初からできる）</td><td>なし</td></tr>
             <tr><td>5位</td><td>Frontend Design</td><td>AIっぽくないホームページ・LPを作る</td><td>Claude Code</td><td>なし</td></tr>
             <tr><td>4位</td><td>Superpowers</td><td>壁打ち・計画・原因調査など、仕事の進め方</td><td>Claude Code</td><td>なし</td></tr>
-            <tr><td>3位</td><td>Marketing Skills</td><td>コピー・売り出す計画・ステップメール・SEOなど50個以上のマーケのスキル</td><td>Claude Code（GitHubから）</td><td>なし</td></tr>
+            <tr><td>3位</td><td>Marketing Skills</td><td>コピー・売り出す計画・ステップメール・SEOなど50個以上のマーケのスキル</td><td>Claude Code（マーケットプレイスの追加で入れる）</td><td>なし</td></tr>
             <tr><td>2位</td><td>Skill Creator</td><td>うまくいった仕事をスキルにする・直す・効果を測る</td><td>最初から入っている</td><td>なし</td></tr>
             <tr><td>1位</td><td>Plugin Create</td><td>会話しながら自分専用のプラグインを作る</td><td>チャット</td><td>なし</td></tr>
           </tbody>
@@ -403,7 +413,7 @@ td:first-child{min-width:7.5em}
 直した方がいいところを、優先度の高い順に3つ教えてください。</pre>
       </div>
       <div class="note"><b>使い方のコツ：</b>1個1個サイズを変えて文字の位置を直す作業をまとめて任せ、最後の仕上がりは自分の目で見る使い方が一番です。表のデータから何十枚も一気に作る機能は、Canvaの企業向けのプランが必要です。Canvaを使っている人にしか関係がないので10位にしました。</div>
-      <a class="toollink" href="https://claude.com/plugins/canva" target="_blank" rel="noopener">Canva プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/canva" target="_blank" rel="noopener">Canva プラグイン</a>
     </div>
   </section>
 
@@ -423,7 +433,7 @@ td:first-child{min-width:7.5em}
         <pre>Notionで「AI活用セミナー」に関するページを探して、もう決まっていることと、まだ決まっていないことを一覧にしてください。</pre>
       </div>
       <div class="note"><b>なぜ大事か：</b>AIは、渡した情報が多いほど自分の仕事に合った答えを返してくれます。星川は、仕事の時間の8割を、AIに渡す情報を集めて整えることに使っています。Notionに決まったことが自然に溜まっていけば、AIに渡せる情報もどんどん増えていきます。Notionを使っている人なら、毎日の記録が丸ごと楽になります。</div>
-      <a class="toollink" href="https://claude.com/plugins/notion" target="_blank" rel="noopener">Notion プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/notion" target="_blank" rel="noopener">Notion プラグイン</a>
     </div>
   </section>
 
@@ -446,7 +456,7 @@ td:first-child{min-width:7.5em}
 投稿する前に、文面を一度見せてください。</pre>
       </div>
       <div class="note"><b>星川の使い方：</b>Claude Codeで作った投稿をSlackに送ってもらい、確認してGOを出すだけ、という形で回していました。AIに作らせて、自分は確認するだけ、という形がこれ1個で作れます。チームや外注さんとSlackでやり取りしている人に向いています。</div>
-      <a class="toollink" href="https://claude.com/plugins/slack" target="_blank" rel="noopener">Slack プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/slack" target="_blank" rel="noopener">Slack プラグイン</a>
     </div>
   </section>
 
@@ -484,7 +494,7 @@ td:first-child{min-width:7.5em}
         <pre>覚えておいてください。「AIセミナー」と言ったら、毎月第2土曜に開いている個人事業主向けのセミナーのことです。担当は田中さんです。</pre>
       </div>
       <div class="note"><b>星川の使い方：</b>Claude CodeでAI秘書を作っていて、毎朝9時にメールとチャットと予定をまとめてDiscordに届けてもらっています。それに近いことが、これ1個でできます。メールやカレンダーをつないで初めて一番便利になるので7位です。まずは「/start」だけ打ってみてください。</div>
-      <a class="toollink" href="https://claude.com/plugins/productivity" target="_blank" rel="noopener">Productivity プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/productivity" target="_blank" rel="noopener">Productivity プラグイン</a>
     </div>
   </section>
 
@@ -508,8 +518,15 @@ td:first-child{min-width:7.5em}
         <div class="prompt-head"><b>PDFから大事なところを抜き出す</b><button class="copy" type="button">コピー</button></div>
         <pre>このフォルダにある契約書のPDFから、支払いの条件と解約の条件を抜き出して、表にまとめてください。</pre>
       </div>
-      <div class="note"><b>星川の使い方：</b>星川もWordの資料を作るスキルを入れています。チャットの画面なら最初からできるので、Claude Codeで資料を作る人向けとして6位にしました。お客さんの名前や金額が入ったファイルを扱う時は、下の「入れる前に知るべき3つの注意」も読んでおいてください。</div>
-      <a class="toollink" href="https://claude.com/plugins/document-skills" target="_blank" rel="noopener">document-skills プラグイン</a>
+      <h3>入れ方</h3>
+      <p>Claude Codeの画面の一覧には出てこないので、チャットの画面の「カスタマイズ」→「プラグイン」で、マーケットプレイス（プラグインの置き場所）を追加するところに、これを入れます。</p>
+      <div class="prompt">
+        <div class="prompt-head"><b>追加するマーケットプレイス</b><button class="copy" type="button">コピー</button></div>
+        <pre>anthropics/skills</pre>
+      </div>
+      <p>出てきた「document-skills」を追加すれば、同じアカウントのClaude Codeでも使えます。</p>
+      <div class="note"><b>6位の理由：</b>チャットの画面なら最初からできるので、Claude Codeで資料を作る人向けとして6位にしました。お客さんの名前や金額が入ったファイルを扱う時は、下の「入れる前に知るべき3つの注意」も読んでおいてください。</div>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/document-skills" target="_blank" rel="noopener">document-skills プラグイン</a>
     </div>
   </section>
 
@@ -531,7 +548,7 @@ td:first-child{min-width:7.5em}
 文字が小さすぎるところがあれば、読みやすい大きさにしてください。</pre>
       </div>
       <div class="note"><b>試し方：</b>入れる前と後で同じ頼み方をして、2つのページを並べてみてください。違いが一番分かりやすいプラグインです。使う場面はページを作る時に限られますが、入れる前と後の差が一番大きいので5位にしました。LPや申し込みページを自分で作る人なら、入れない理由がありません。</div>
-      <a class="toollink" href="https://claude.com/plugins/frontend-design" target="_blank" rel="noopener">Frontend Design プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/frontend-design" target="_blank" rel="noopener">Frontend Design プラグイン</a>
     </div>
   </section>
 
@@ -541,19 +558,20 @@ td:first-child{min-width:7.5em}
     <p class="sec-lead rv">Jesse Vincentさんという開発者の方が作ったプラグインです。Claude Codeの画面で使います。インストール数は全プラグインで2位、100万回以上です（2026年10月時点）。</p>
 
     <div class="card rv">
-      <p>Anthropicの認定はない個人の方のものですが、中身が公開されていて、たくさんの人に使われています。いきなり作り始めずにアイデアを壁打ちする、計画を立ててから作る、うまくいかない時は原因を順番に調べる、といった仕事の進め方がスキルで入っています。もともとはプログラムを作る人向けですが、壁打ちと計画はどんな仕事にも使えます。</p>
+      <p>作ったのはAnthropicではなく個人の方ですが、中身が公開されていて、今はAnthropicの認定の印も付いています。たくさんの人に使われているプラグインです。いきなり作り始めずにアイデアを壁打ちする、計画を立ててから作る、うまくいかない時は原因を順番に調べる、といった仕事の進め方がスキルで入っています。もともとはプログラムを作る人向けですが、壁打ちと計画はどんな仕事にも使えます。</p>
       <div class="prompt">
         <div class="prompt-head"><b>企画を一緒に考える</b><button class="copy" type="button">コピー</button></div>
-        <pre>/brainstorming 新しいオンライン講座の企画を一緒に考えたいです。</pre>
+        <pre>/superpowers:brainstorming 新しいオンライン講座の企画を一緒に考えたいです。</pre>
       </div>
+      <p>入力欄に「/」を打って「brainstorming」を選ぶと、この形で入ります。</p>
       <p>いきなり答えを出すのではなく、「誰向けですか」「受講した人にどうなってほしいですか」と、1個ずつ質問してくれます。答えていくと、企画の形が固まっていきます。</p>
       <div class="prompt">
         <div class="prompt-head"><b>決まった企画を計画にする</b><button class="copy" type="button">コピー</button></div>
         <pre>ここまでで決まった企画を、公開までにやることの計画にしてください。
 順番と、それぞれにかかる時間の目安も付けてください。</pre>
       </div>
-      <div class="note"><b>なぜズレなくなるか：</b>AIの答えがズレるのは、こちらが決めきれていないところを、AIが想像で埋めてしまうからです。最初に質問してもらって、決めてから作るので、作り直しが減ります。星川もこの「brainstorming」を入れています。</div>
-      <a class="toollink" href="https://claude.com/plugins/superpowers" target="_blank" rel="noopener">Superpowers プラグイン</a>
+      <div class="note"><b>なぜズレなくなるか：</b>AIの答えがズレるのは、こちらが決めきれていないところを、AIが想像で埋めてしまうからです。最初に質問してもらって、決めてから作るので、作り直しが減ります。</div>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/superpowers" target="_blank" rel="noopener">Superpowers プラグイン</a>
     </div>
   </section>
 
@@ -563,15 +581,16 @@ td:first-child{min-width:7.5em}
     <p class="sec-lead rv">アメリカのマーケターのCorey Haines（コーリー・ヘインズ）さんが作ったものです。Claude Codeの画面で使います。</p>
 
     <div class="card rv">
-      <p>キャッチコピーやLPの文章、商品を売り出すまでの計画、ステップメール、SEOの診断、広告の文章など、マーケティングのスキルが50個以上入っています。プログラムの公開場所のGitHubで5万以上のお気に入りが付いている、人気のスキル集です（2026年10月時点でスキル52個）。星川も、この中のコピーライティングや、売り出すまでの計画のスキルを入れています。</p>
+      <p>キャッチコピーやLPの文章、商品を売り出すまでの計画、ステップメール、SEOの診断、広告の文章など、マーケティングのスキルが50個以上入っています。プログラムの公開場所のGitHubで5万以上のお気に入りが付いている、人気のスキル集です（2026年10月時点でスキル52個）。</p>
 
       <h3>入れ方</h3>
-      <p>Claudeのプラグイン一覧にはまだ載っていないので、Claude Codeの画面でこう頼みます。</p>
+      <p>Claudeのプラグイン一覧にはまだ載っていないので、6位のDocument Skillsと同じように、チャットの画面の「カスタマイズ」→「プラグイン」で、マーケットプレイスを追加するところに、これを入れます。</p>
       <div class="prompt">
-        <div class="prompt-head"><b>Marketing Skillsを入れる</b><button class="copy" type="button">コピー</button></div>
-        <pre>coreyhaines31/marketingskills のマーケティングスキルを、Claude Codeにプラグインとして入れてください。</pre>
+        <div class="prompt-head"><b>追加するマーケットプレイス</b><button class="copy" type="button">コピー</button></div>
+        <pre>coreyhaines31/marketingskills</pre>
       </div>
-      <div class="note"><b>うまく入らない時：</b>「＋」→「プラグイン」でマーケットプレイス（プラグインの置き場所）を追加できる画面があれば、「coreyhaines31/marketingskills」を追加して、「marketing-skills」を入れてください。個人の方が作ったものなので、下の「入れる前に知るべき3つの注意」の1つ目も確認してから入れてください。</div>
+      <p>出てきた「marketing-skills」を追加すれば、同じアカウントのClaude Codeでも使えます。</p>
+      <div class="note"><b>入れる前に：</b>個人の方が作ったもので、Claudeのプラグイン一覧には載っていません。下の「入れる前に知るべき3つの注意」の1つ目も確認してから入れてください。</div>
 
       <h3>使ってみる</h3>
       <div class="prompt">
@@ -591,7 +610,7 @@ SNS・メール・LINEで、いつ何を出すかを週ごとに並べてくだ�
       </div>
       <div class="note"><b>チャットの画面で使いたい方へ：</b>Anthropic公式の「Marketing」という近いプラグインもあります。キャンペーンの計画やステップメールなどが入っています。マーケの仕事をしている方なら、文章を書く時間がまとめて減るので3位にしました。</div>
       <a class="toollink" href="https://github.com/coreyhaines31/marketingskills" target="_blank" rel="noopener">Marketing Skills（GitHub）</a>
-      <a class="toollink" href="https://claude.com/plugins/marketing" target="_blank" rel="noopener">Marketing プラグイン（Anthropic公式）</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/marketing" target="_blank" rel="noopener">Marketing プラグイン（Anthropic公式）</a>
     </div>
   </section>
 
@@ -634,7 +653,7 @@ SNS・メール・LINEで、いつ何を出すかを週ごとに並べてくだ�
 Skill Creatorで、どこを直せばいいか見直して、スキルを更新してください。</pre>
       </div>
       <div class="note"><b>星川の使い方：</b>YouTubeのリサーチやX投稿の作成など、よくやる作業をスキルにしていて、会社の仕組みはこのスキルで回しています。スキルの細かい作り方は覚えなくて大丈夫です。星川も細かいところはSkill Creatorに任せています。1個作るたびに、AIに任せられる仕事が1つずつ増えていくので2位にしました。</div>
-      <a class="toollink" href="https://claude.com/plugins/skill-creator" target="_blank" rel="noopener">skill-creator プラグイン</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/skill-creator" target="_blank" rel="noopener">skill-creator プラグイン</a>
     </div>
   </section>
 
@@ -679,7 +698,7 @@ Skill Creatorで、どこを直せばいいか見直して、スキルを更新�
       </div>
 
       <div class="note"><b>星川の使い方：</b>星川はこれまでに、YouTubeのリサーチから台本まで作るもの、台本からセミナーのスライドを作るもの、カレンダーやチャットのタスクをまとめるもの、AIとの会話からナレッジを残すものなど、自分専用のプラグインを作ってきました。チームで使うプランなら、作ったプラグインをメンバーに共有することもできます。自分の仕事のやり方を、そのまま人に渡せるので1位にしました。</div>
-      <a class="toollink" href="https://claude.com/plugins/cowork-plugin-management" target="_blank" rel="noopener">Cowork Plugin Management（Plugin Create）</a>
+      <a class="toollink" href="https://claude.com/marketplace/plugins/cowork-plugin-management" target="_blank" rel="noopener">Cowork Plugin Management（Plugin Create）</a>
       <a class="toollink" href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener">Anthropic公式のプラグイン集（GitHub）</a>
     </div>
   </section>
@@ -732,9 +751,9 @@ Skill Creatorで、どこを直せばいいか見直して、スキルを更新�
         <table>
           <thead><tr><th>作った人</th><th>見分け方</th><th>この資料の例</th></tr></thead>
           <tbody>
-            <tr><td>Anthropic（Claudeを作っている会社）</td><td>一覧に「Anthropic verified」の印、作者がAnthropic</td><td>Productivity、Document Skills、Frontend Design、Skill Creator、Plugin Create</td></tr>
-            <tr><td>ツールの会社</td><td>作者がそのツールの会社（Slackは認定の印も付いている）</td><td>Canva、Notion、Slack</td></tr>
-            <tr><td>個人の方</td><td>中身が公開されているか、たくさんの人に使われているかを見てから入れる</td><td>Superpowers、Marketing Skills</td></tr>
+            <tr><td>Anthropic（Claudeを作っている会社）</td><td>一覧に「Anthropic認定済み」（英語の画面ではAnthropic verified）の印、作者がAnthropic</td><td>Productivity、Document Skills、Frontend Design、Skill Creator、Plugin Create</td></tr>
+            <tr><td>ツールの会社</td><td>作者がそのツールの会社（今は3つとも「Anthropic認定済み」の印が付いている）</td><td>Canva、Notion、Slack</td></tr>
+            <tr><td>個人の方</td><td>中身が公開されているか、たくさんの人に使われているかを見てから入れる（Superpowersには今は認定の印も付いている。Marketing Skillsは一覧に載っていない）</td><td>Superpowers、Marketing Skills</td></tr>
           </tbody>
         </table>
       </div>
